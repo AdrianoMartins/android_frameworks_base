@@ -21510,6 +21510,7 @@ package android.text.format {
     method public static final java.lang.CharSequence format(java.lang.CharSequence, long);
     method public static final java.lang.CharSequence format(java.lang.CharSequence, java.util.Date);
     method public static final java.lang.CharSequence format(java.lang.CharSequence, java.util.Calendar);
+    method public static final java.lang.String getBestDateTimePattern(java.util.Locale, java.lang.String);
     method public static final java.text.DateFormat getDateFormat(android.content.Context);
     method public static final char[] getDateFormatOrder(android.content.Context);
     method public static final java.text.DateFormat getLongDateFormat(android.content.Context);

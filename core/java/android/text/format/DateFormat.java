@@ -30,6 +30,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
+import libcore.icu.ICU;
+import libcore.icu.LocaleData;
 
 /**
     Utility class for producing strings with formatted date/time.
@@ -239,6 +241,40 @@ public class DateFormat {
         boolean b24 =  !(value == null || value.equals("12"));
         return b24;
     }
+    
+    
+    /**
+     * Returns the best possible localized form of the given skeleton for the given
+     * locale. A skeleton is similar to, and uses the same format characters as, a Unicode
+     * <a href="http://www.unicode.org/reports/tr35/#Date_Format_Patterns">UTS #35</a>
+     * pattern.
+     *
+     * <p>One difference is that order is irrelevant. For example, "MMMMd" will return
+     * "MMMM d" in the {@code en_US} locale, but "d. MMMM" in the {@code de_CH} locale.
+     *
+     * <p>Note also in that second example that the necessary punctuation for German was
+     * added. For the same input in {@code es_ES}, we'd have even more extra text:
+     * "d 'de' MMMM".
+     *
+     * <p>This method will automatically correct for grammatical necessity. Given the
+     * same "MMMMd" input, this method will return "d LLLL" in the {@code fa_IR} locale,
+     * where stand-alone months are necessary. Lengths are preserved where meaningful,
+     * so "Md" would give a different result to "MMMd", say, except in a locale such as
+     * {@code ja_JP} where there is only one length of month.
+     *
+     * <p>This method will only return patterns that are in CLDR, and is useful whenever
+     * you know what elements you want in your format string but don't want to make your
+     * code specific to any one locale.
+     *
+     * @param locale the locale into which the skeleton should be localized
+     * @param skeleton a skeleton as described above
+     * @return a string pattern suitable for use with {@link java.text.SimpleDateFormat}.
+     */
+     
+    public static String getBestDateTimePattern(Locale locale, String skeleton) {
+        return ICU.getBestDateTimePattern(skeleton, locale.toString());
+    }
+    
 
     /**
      * Returns a {@link java.text.DateFormat} object that can format the time according
