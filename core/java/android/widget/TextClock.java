@@ -206,8 +206,14 @@ public class TextClock extends TextView {
     public TextClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-            mFormat12 = "h:mm aa";
-            mFormat24 = "k:mm";
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextClock, defStyle, 0);
+        try {
+            mFormat12 = a.getText(R.styleable.TextClock_format12Hour);
+            mFormat24 = a.getText(R.styleable.TextClock_format24Hour);
+            mTimeZone = a.getString(R.styleable.TextClock_timeZone);
+        } finally {
+            a.recycle();
+        }
 
         init();
     }
@@ -216,10 +222,10 @@ public class TextClock extends TextView {
         if (mFormat12 == null || mFormat24 == null) {
             LocaleData ld = LocaleData.get(getContext().getResources().getConfiguration().locale);
             if (mFormat12 == null) {
-                mFormat12 = "h:mm aa";
+                mFormat12 = ld.timeFormat12;
             }
             if (mFormat24 == null) {
-                mFormat24 = "k:mm";
+                mFormat24 = ld.timeFormat24;
             }
         }
 
@@ -493,9 +499,9 @@ public class TextClock extends TextView {
         LocaleData ld = LocaleData.get(getContext().getResources().getConfiguration().locale);
 
         if (format24Requested) {
-            mFormat = abc(mFormat24, mFormat12, "k:mm");
+            mFormat = abc(mFormat24, mFormat12, ld.timeFormat24);
         } else {
-            mFormat = abc(mFormat12, mFormat24, "h:mm aa");
+            mFormat = abc(mFormat12, mFormat24, ld.timeFormat12);
         }
 
         boolean hadSeconds = mHasSeconds;
