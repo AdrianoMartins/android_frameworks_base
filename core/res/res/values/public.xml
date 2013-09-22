@@ -3673,6 +3673,11 @@
      Resources added in version 17 of the platform (Jelly Bean MR1)
      =============================================================== -->
     
+    <public type="attr" name="paddingStart" id="0x010103b3" />
+    <public type="attr" name="paddingEnd" id="0x010103b4" />
+    <public type="attr" name="layout_marginStart" id="0x010103b5" />
+    <public type="attr" name="layout_marginEnd" id="0x010103b6" />
+    
     <public type="attr" name="format12Hour" id="0x010103ca" />
     <public type="attr" name="format24Hour" id="0x010103cb" />
     <public type="attr" name="timeZone" id="0x010103cc" />
